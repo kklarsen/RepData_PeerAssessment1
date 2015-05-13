@@ -29,8 +29,8 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 The following libraries are being used (**note**: in case these are already present they will not be downloaded again. Only the library itself will be activated by calling the `library()` function);
 
-```{r, echo = TRUE}
 
+```r
 # LIBRARIES UZED
 
 if("knitr" %in% rownames(installed.packages()) == FALSE) {install.packages("knitr")}
@@ -51,8 +51,8 @@ library(scales)
 
 and have the following supporting functions defined
 
-```{r, echo = TRUE}
 
+```r
 # DEFINED FUNCTIONS
 
 save_png <- function(n,d) {
@@ -135,8 +135,8 @@ myTheme <- function() {
 
 The strategy of the loading & pre-processing the activity data is to enable the remote zip file to be directly downloaded in the `"./dataset"` directory (i.e., created in the working directory). It should be loaded only once. Thus, on repeated runs of the code, the code will not re-load the dataset. Furthermore, once the `.csv` file has been loaded to the dataframe and the pre-processing of the dataset has been carried out, the code should not repeatedly run through this process when the code is executed subsequently.
 
-```{r, echo = TRUE}
 
+```r
 # MAIN ENVIRONMENT
 
 ## DATASET DIRECTORY
@@ -146,7 +146,6 @@ The strategy of the loading & pre-processing the activity data is to enable the 
 fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 DataDir <- "./dataset" #this is the directory where original data is to be found
 DataSet <- "activity.CSV"
-
 ```
 
 The following code segment check whether the `dataActivity` dataframe representing the dataset exist.
@@ -155,8 +154,8 @@ The following code segment check whether the `dataActivity` dataframe representi
 
 - if `dataActivity` **does exist** the code will omit re-doing this step again.
 
-```{r, echo = TRUE}
 
+```r
 ### create figure directory where all graphic plots will be saved.
 
 resultsDir <- "./figure" 
@@ -195,7 +194,6 @@ if (l == FALSE) { dataActivity <- read.table(dataFile,
                   
                   dataActivity <- cbind(dataActivity,weekday,daytype)                          
 }
-
 ```
 
 As i want to prepare the dataset for the questions coming later, I am in the above code segment adding two columns extra;
@@ -204,25 +202,52 @@ As i want to prepare the dataset for the questions coming later, I am in the abo
 
 The structure (i.e., `str()`) of the `dataActivity` dataframe is;
 
-```{r, echo = TRUE}
 
+```r
 str(dataActivity)
+```
+
+```
+## 'data.frame':	17568 obs. of  5 variables:
+##  $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
+##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+##  $ interval: num  0 5 10 15 20 25 30 35 40 45 ...
+##  $ weekday : Ord.factor w/ 7 levels "Sun"<"Mon"<"Tues"<..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ daytype : Factor w/ 2 levels "mw","we": 1 1 1 1 1 1 1 1 1 1 ...
 ```
 
 The `weekday` and `daytype` columns have been added to the original dataset. Also note that there are `NA`s in the `steps` activity measurements as well.
 
 The summary of `dataActivity` tells us the following;
 
-```{r, echo = TRUE}
 
+```r
 summary(dataActivity)
+```
 
+```
+##      steps             date               interval       weekday    
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0   Sun  :2304  
+##  1st Qu.:  0.00   1st Qu.:2012-10-16   1st Qu.: 588.8   Mon  :2592  
+##  Median :  0.00   Median :2012-10-31   Median :1177.5   Tues :2592  
+##  Mean   : 37.38   Mean   :2012-10-31   Mean   :1177.5   Wed  :2592  
+##  3rd Qu.: 12.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2   Thurs:2592  
+##  Max.   :806.00   Max.   :2012-11-30   Max.   :2355.0   Fri  :2592  
+##  NA's   :2304                                           Sat  :2304  
+##  daytype   
+##  mw:12960  
+##  we: 4608  
+##            
+##            
+##            
+##            
+## 
 ```
 
 The summary shows that the `steps` data have 2,304 `NA` entries.
 
-```{r, echo = TRUE}
 
+```r
 ## PLOT NUMBER OF STEPS PER DAY.
 ### Each step interval per day is represented by a bar segment on the daily bar. 
 
@@ -235,9 +260,19 @@ g0 <- g0 + myTheme()
 
 **Note** the warning inserted by the `ggplot2` code relates to omitting the 2,304 `NA` values in the plot.
 
-```{r, echo = TRUE}
-print(g0)
 
+```r
+print(g0)
+```
+
+```
+## Warning in loop_apply(n, do.ply): Removed 2304 rows containing missing
+## values (position_stack).
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
+
+```r
 save_png("plot0.png","./figure")
 ```
 
@@ -247,8 +282,8 @@ It is always instructive to make simpler plots on the relevant data to get a fee
 
 In the following activity analysis represented by number of steps, the `NA`s have been omitted.
 
-```{r, echo = TRUE}
 
+```r
 ## PART 1: MEAN TOTAL NUMBER OF STEPS TAKEN PER DAY
 
 ### Total number of steps per day
@@ -269,15 +304,19 @@ daysENA <- lenDayswNA - lenDayswoNA
 
 We can easily calculate the equivalent days with no (or invalid) `step` measurements. Take the difference of the length of the `step` measurement with and without considering `NA`. The equivalent number of days with an `NA` entry is
 
-```{r, echo = TRUE}
 
+```r
 print(daysENA)
+```
+
+```
+## [1] 8
 ```
 
 From the dataframe `dataActivity` with the `NA`s omitted, we can create a histogram, using `ggplot2` of the number of steps made over the period (note: the `ggplot2` `theme` has been defined in the above function `myTheme()`);
 
-```{r, echo = TRUE}
 
+```r
 ## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED
 g1 <- ggplot(stepsperDay, aes(x = steps))
 g1 <- g1 + geom_histogram(binwidth=2000, fill = "white", col = "black", alpha=1.0, position="identity")
@@ -286,14 +325,18 @@ g1 <- g1 + labs(title = "Steps Histogram with NA omitted")
 g1 <- g1 + myTheme()
 
 print(g1)
+```
 
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+
+```r
 save_png("plot1.png","./figure")
 ```
 
 The mean and median (i..e, 50%-percentile) is summerized in the table below (i.e, using the `stargazer` library);
 
-```{r, echo = TRUE}
 
+```r
 ### Mean & Median (i.e., 50%-pectentile) steps per dat over the period.
 ### NA has been ommitted.
 ### using `stargazer` library
@@ -308,12 +351,25 @@ stargazer(stepsperDay, type = "text", title = "Daily Steps statistics (NA omitte
           flip = TRUE)
 ```
 
+```
+## 
+## Daily Steps statistics (NA omitted)
+## ================
+## Statistic steps 
+## ----------------
+## N           53  
+## Mean      10,766
+## St. Dev.  4,269 
+## Median    10,765
+## ----------------
+```
+
 The `nobs` represents the number of observed days with valid `steps` measurements.
 
 # What is the average daily activity pattern?
 
-```{r, echo = TRUE}
 
+```r
 stepsperInterval <- aggregate(steps ~ interval, dataActivity, FUN = mean, na.action = na.omit)
 
 ## PLOT NUMBER OF STEPS PER INTERVAL INCREMENT.
@@ -324,7 +380,11 @@ g2 <- g2 + labs(title = "Steps per interval increment (NA omitted)")
 g2 <- g2 + myTheme()
 
 print(g2)
+```
 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
+
+```r
 save_png("plot2.png","./figure")
 
 ### Maximum number of `steps` averaged across all days
@@ -338,13 +398,18 @@ atMaxSteps <- round(MaxSteps,0)
 
 ### The 5-minute interval at maxium steps 
 tb1 <- cbind(interval, atMaxSteps)
-
 ```
 
 `interval` at the maximum number of `steps` 
 
-```{r, echo = TRUE}
+
+```r
 print(tb1)
+```
+
+```
+##      interval atMaxSteps
+## [1,]      835        206
 ```
 
 # Inputting missing values
@@ -353,8 +418,8 @@ print(tb1)
 
 Note in prinicple this strategy will lead to boost the peak of the distribution which might be incorrect as those missing NAs might as well be a 0 activity data point. Alternative replacement methodologies might be interpolation between two existing daily profiles, which only leads to an end-points problem that might be taken as non-activity days (i.e., all zeroes).
 
-```{r, echo = TRUE}
 
+```r
 ## PART 3: MISSING VALUES (i.e., THE NA's)
 
 ### Strategy will be to replace mid-week days NAs with the average mid-week acivity profile
@@ -374,18 +439,22 @@ tb2 <- cbind(intervalswNA,daysENA)
 
 The above coding segment finds the amount of `interval`s with the step value `NA` (`intervalswNA`) and the equivalent number of days (`daysENA`)
 
-```{r, echo = TRUE}
 
+```r
 print(tb2)
+```
 
+```
+##      intervalswNA daysENA
+## [1,]         2304       8
 ```
 
 **Note: The above Table is the answer to this sections first question.**
 
 The following R code implements the above described strategy by subsetting the orinal dataset into a **midweek** and a **weekend** dataset; 
 
-```{r, echo = TRUE}
 
+```r
 ### Midweek Reference steps per interval function
 dataMidweek <- dataActivity[dataActivity$daytype == "mw",]
 Midweek <- aggregate(steps ~ interval, dataMidweek, FUN = mean, na.action = na.omit)
@@ -426,17 +495,47 @@ dataActivityNew$steps[dataActivity$daytype == "we" & is.na(dataActivity$steps)] 
 
 Hereby the structure of the new dataset with the missing (`steps`) values filled in;
 
-```{r, echo = TRUE}
 
+```r
 str(dataActivityNew)
+```
+
+```
+## 'data.frame':	17568 obs. of  5 variables:
+##  $ steps   : num  2.333 0.462 0.179 0.205 0.103 ...
+##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+##  $ interval: num  0 5 10 15 20 25 30 35 40 45 ...
+##  $ weekday : Ord.factor w/ 7 levels "Sun"<"Mon"<"Tues"<..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ daytype : Factor w/ 2 levels "mw","we": 1 1 1 1 1 1 1 1 1 1 ...
 ```
 
 and the following provide the summary of the new dataset showing that there no longer are missing values present;
 
-```{r, echo = TRUE}
 
+```r
 summary(dataActivityNew)
+```
 
+```
+##      steps             date               interval       weekday    
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0   Sun  :2304  
+##  1st Qu.:  0.00   1st Qu.:2012-10-16   1st Qu.: 588.8   Mon  :2592  
+##  Median :  0.00   Median :2012-10-31   Median :1177.5   Tues :2592  
+##  Mean   : 37.37   Mean   :2012-10-31   Mean   :1177.5   Wed  :2592  
+##  3rd Qu.: 24.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2   Thurs:2592  
+##  Max.   :806.00   Max.   :2012-11-30   Max.   :2355.0   Fri  :2592  
+##                                                         Sat  :2304  
+##  daytype   
+##  mw:12960  
+##  we: 4608  
+##            
+##            
+##            
+##            
+## 
+```
+
+```r
 ## PLOT NUMBER OF STEPS PER DAY.
 ### Each step interval per day is represented by a bar segment on the daily bar. 
 
@@ -449,17 +548,21 @@ g3 <- g3 + myTheme()
 
 The below `ggplot2` plot shows the number of steps made per day, over the period represented by the activity dataset. In this plot every block represents one activity time interval and shows (not surprisingly) that different days have different activity dynamics. Further we also see that after the replacement (or "filling in") of there are no longer days with no measurement (i.e., `NA`s). It should however be noted that there are two days 0 `steps` measurements (as opposed to `NA` entries).
 
-```{r, echo = TRUE}
 
+```r
 print(g3)
+```
 
+![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20-1.png) 
+
+```r
 save_png("plot3.png","./figure")
 ```
 
 The new "infilled"" dataset `dataActivityNew` is illustrated by structure (i.e., `str()`), the `summary()` and the `ggplot2` plot above. **This concludes the answer to this section's 3rd task**.
 
-```{r, echo = TRUE}
 
+```r
 ## CONSOLIDATING DATA FOR STEPS WITH NA REPLACED & STEPS WITH NA OMITTED
 ### need this to plot the two data sets together for visual inspection.
 
@@ -491,7 +594,11 @@ g4 <- g4 + labs(title = "Steps Histogram with NA replaced")
 g4 <- g4 + myTheme()
 
 print(g4)
+```
 
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21-1.png) 
+
+```r
 save_png("plot4.png","./figure")
 ```
 
@@ -499,8 +606,8 @@ The above `ggplot2` should be compared with the above `"Steps Histogram with NA 
 
 The mean and median is tabulated below using the `stargazer` library;
 
-```{r, echo = TRUE}
 
+```r
 stepsperDayNew <- aggregate(steps ~ date, dataActivityNew, FUN = sum, na.action = na.omit)
 
 stargazer(stepsperDayNew, type = "text", title = "Daily Steps statistics (NA replaced)",
@@ -513,12 +620,27 @@ stargazer(stepsperDayNew, type = "text", title = "Daily Steps statistics (NA rep
           flip = TRUE)
 ```
 
+```
+## 
+## Daily Steps statistics (NA replaced)
+## ================
+## Statistic steps 
+## ----------------
+## N           61  
+## Mean      10,762
+## St. Dev.  3,990 
+## Min         41  
+## Median    10,571
+## Max       21,194
+## ----------------
+```
+
 **Note: the above histogram and Table of mean & the median addresses the fourth and last question of this section.**
 
 For comparison this can be compared with the Table (also shown previously above) when `NA` is omitted from the anaysis;
 
-```{r, echo = TRUE}
 
+```r
 stargazer(stepsperDay, type = "text", title = "Daily Steps statistics (NA omitted)",
           digits = 0,
           summary.logical = TRUE,
@@ -529,11 +651,26 @@ stargazer(stepsperDay, type = "text", title = "Daily Steps statistics (NA omitte
           flip = TRUE)
 ```
 
+```
+## 
+## Daily Steps statistics (NA omitted)
+## ================
+## Statistic steps 
+## ----------------
+## N           53  
+## Mean      10,766
+## St. Dev.  4,269 
+## Min         41  
+## Median    10,765
+## Max       21,194
+## ----------------
+```
+
 
 It is instructive to overlay the `steps` histograms of `NA` omitted and `NA` replaced as it is easier to quickly oversee the difference between the two strategies.
 
-```{r, echo = TRUE}
 
+```r
 ## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED & NA OMITTED
 g5 <- ggplot(zz, aes(x = steps, fill = NA_treatment))
 g5 <- g5 + geom_histogram(binwidth=2000, col = "red", alpha=0.4, position="identity")
@@ -542,7 +679,11 @@ g5 <- g5 + labs(title = "Steps Histogram with \nNA replaced & NA omitted")
 g5 <- g5 + myTheme()
 
 print(g5)
+```
 
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24-1.png) 
+
+```r
 save_png("plot5.png","./figure")
 ```
 
@@ -554,8 +695,8 @@ secondly, the new factor variable was created in the very beginning of the code 
 
 Above the effort was already made to subset the `dataActivity` dataframe into a `midweek` and a `weekend` part. Tables below summarizing the **midweek** and **weekend** distributions with `NA`s replaced.
 
-```{r, echo = TRUE}
 
+```r
 ## TABLES SUMMARY
 
 stepsperMidweekDay <- aggregate(steps ~ date, dataMidweek, FUN = sum, na.action = na.omit)
@@ -568,7 +709,24 @@ stargazer(stepsperMidweekDay, type = "text", title = "Daily Steps per Midweek st
           min.max = TRUE,
           median = TRUE,
           flip = TRUE)
+```
 
+```
+## 
+## Daily Steps per Midweek statistics (NA replaced)
+## ================
+## Statistic steps 
+## ----------------
+## N           45  
+## Mean      10,177
+## St. Dev.  4,359 
+## Min         41  
+## Median    10,177
+## Max       21,194
+## ----------------
+```
+
+```r
 stepsperWeekendDay <- aggregate(steps ~ date, dataWeekend, FUN = sum, na.action = na.omit)
 
 stargazer(stepsperWeekendDay, type = "text", title = "Daily Steps per Weekend statistics (NA replaced)",
@@ -579,15 +737,29 @@ stargazer(stepsperWeekendDay, type = "text", title = "Daily Steps per Weekend st
           min.max = TRUE,
           median = TRUE,
           flip = TRUE)
+```
 
+```
+## 
+## Daily Steps per Weekend statistics (NA replaced)
+## ================
+## Statistic steps 
+## ----------------
+## N           16  
+## Mean      12,407
+## St. Dev.  2,006 
+## Min       8,821 
+## Median    12,407
+## Max       15,420
+## ----------------
 ```
 
 This already clearly evidence that the distributions for midweek and weekend are very different. Weekend distribution has the higest mean (& median) compared to the midweek distribution but also a narrower distribution with the standard deviation being less than half of the midweek distributions standard deviation.
 
 The short answer to this section's question is: **Yes! there are substantial differences in the activity patterns between the midweek and the weekend distribution.** 
 
-```{r, echo = TRUE}
 
+```r
 ## Constructing the midweek & weekend step activity plot.
 ## Illustrated data are for NA replaced.
 
@@ -608,14 +780,18 @@ g6 <- g6 + labs(title = "Midday & Weekend Steps per Interval (NA Replaced)")
 g6 <- g6 + myTheme()
 g6 <- g6 + facet_wrap(~ daytype)
 g6 <- g6 + facet_grid(.~ daytype, labeller=daytypeLabeller)
-
 ```
 
 To construct the `ggplot2` plot, I m using `facet_wrap()` to split it into two sections, showing the data for **midweek** as well as **weekend**, Further, I am renaming the labels from the coding convinient `mw` and `we` to something more describing, i.e., `mw = "Midweek: Mon - Fri"` and `we = "Weekend: Sat - Sun"`. `ggplot2`'s `facet_grid()` firstly positions the two facets and adds the more descriptive labels.  
 
-```{r, echo = TRUE}
-print(g6)
 
+```r
+print(g6)
+```
+
+![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27-1.png) 
+
+```r
 save_png("plot6.png","./figure")
 ```
 
