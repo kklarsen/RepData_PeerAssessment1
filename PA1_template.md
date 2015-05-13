@@ -41,7 +41,17 @@ library(lubridate)
 
 if("stargazer" %in% rownames(installed.packages()) == FALSE) {install.packages("stargazer")}
 library(stargazer)
+```
 
+```
+## 
+## Please cite as: 
+## 
+##  Hlavac, Marek (2014). stargazer: LaTeX code and ASCII text for well-formatted regression and summary statistics tables.
+##  R package version 5.1. http://CRAN.R-project.org/package=stargazer
+```
+
+```r
 if("ggplot2" %in% rownames(installed.packages()) == FALSE) {install.packages("ggplot2")}
 library(ggplot2)
 
@@ -158,7 +168,7 @@ The following code segment check whether the `dataActivity` dataframe representi
 ```r
 ### create figure directory where all graphic plots will be saved.
 
-resultsDir <- "./figure" 
+resultsDir <- "./figures" 
 if (file.exists(resultsDir) == FALSE) dir.create(resultsDir)
 
 ### check whether the dataframe, read from the dataFile, exists.
@@ -248,6 +258,8 @@ The summary shows that the `steps` data have 2,304 `NA` entries.
 
 
 ```r
+opts_chunk$set(fig.path="./figures")
+
 ## PLOT NUMBER OF STEPS PER DAY.
 ### Each step interval per day is represented by a bar segment on the daily bar. 
 
@@ -270,10 +282,10 @@ print(g0)
 ## values (position_stack).
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
+![plot of chunk unnamed-chunk-8](./figuresunnamed-chunk-8-1.png) 
 
 ```r
-save_png("plot0.png","./figure")
+save_png("plot0.png",resultsDir)
 ```
 
 It is always instructive to make simpler plots on the relevant data to get a feelling for the structure of data. The above `ggplot2` plot shows the number of steps made per day, over the period represented by the activity dataset. In this plot every block represents one activity time interval and shows (not surprisingly) that different days have different activity dynamics. Further we also see that there are days where no measurement were made at all. This typically represented by a `NA` in the original dataset. 
@@ -327,10 +339,10 @@ g1 <- g1 + myTheme()
 print(g1)
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](./figuresunnamed-chunk-11-1.png) 
 
 ```r
-save_png("plot1.png","./figure")
+save_png("plot1.png",resultsDir)
 ```
 
 The mean and median (i..e, 50%-percentile) is summerized in the table below (i.e, using the `stargazer` library);
@@ -382,10 +394,10 @@ g2 <- g2 + myTheme()
 print(g2)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
+![plot of chunk unnamed-chunk-13](./figuresunnamed-chunk-13-1.png) 
 
 ```r
-save_png("plot2.png","./figure")
+save_png("plot2.png",resultsDir)
 
 ### Maximum number of `steps` averaged across all days
 MaxSteps <- max(stepsperInterval$steps)
@@ -553,10 +565,10 @@ The below `ggplot2` plot shows the number of steps made per day, over the period
 print(g3)
 ```
 
-![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20-1.png) 
+![plot of chunk unnamed-chunk-20](./figuresunnamed-chunk-20-1.png) 
 
 ```r
-save_png("plot3.png","./figure")
+save_png("plot3.png",resultsDir)
 ```
 
 The new "infilled"" dataset `dataActivityNew` is illustrated by structure (i.e., `str()`), the `summary()` and the `ggplot2` plot above. **This concludes the answer to this section's 3rd task**.
@@ -596,10 +608,10 @@ g4 <- g4 + myTheme()
 print(g4)
 ```
 
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21-1.png) 
+![plot of chunk unnamed-chunk-21](./figuresunnamed-chunk-21-1.png) 
 
 ```r
-save_png("plot4.png","./figure")
+save_png("plot4.png",resultsDir)
 ```
 
 The above `ggplot2` should be compared with the above `"Steps Histogram with NA omitted"` histogram plot, for which `NA` was omitted in the analysis. As can be seen here "the peak of the distribution" is being emphasized more by the chosen strategy. Mean and Median (i.e., 50-percentile are moving further away from each other). However, it is questionable whether such comparison is really very meaningful as the `midweek` and `weekend` activity profiles are very different. Particular as this analysis have chosen an infill strategy based on the de-composed activity profiles of **midweek** and **weekend**. 
@@ -681,10 +693,10 @@ g5 <- g5 + myTheme()
 print(g5)
 ```
 
-![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24-1.png) 
+![plot of chunk unnamed-chunk-24](./figuresunnamed-chunk-24-1.png) 
 
 ```r
-save_png("plot5.png","./figure")
+save_png("plot5.png",resultsDir)
 ```
 
 # Are there differences in activity patterns between weekdays & weekends
@@ -789,10 +801,10 @@ To construct the `ggplot2` plot, I m using `facet_wrap()` to split it into two s
 print(g6)
 ```
 
-![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27-1.png) 
+![plot of chunk unnamed-chunk-27](./figuresunnamed-chunk-27-1.png) 
 
 ```r
-save_png("plot6.png","./figure")
+save_png("plot6.png",resultsDir)
 ```
 
 Not surprisingly there is a big difference in the step activity beetween that of a midweek day and of a weekend day.
