@@ -233,16 +233,8 @@ library(lubridate)
 
 if(&quot;stargazer&quot; %in% rownames(installed.packages()) == FALSE) {install.packages(&quot;stargazer&quot;)}
 library(stargazer)
-</code></pre>
 
-<pre><code>## 
-## Please cite as: 
-## 
-##  Hlavac, Marek (2014). stargazer: LaTeX code and ASCII text for well-formatted regression and summary statistics tables.
-##  R package version 5.1. http://CRAN.R-project.org/package=stargazer
-</code></pre>
-
-<pre><code class="r">if(&quot;ggplot2&quot; %in% rownames(installed.packages()) == FALSE) {install.packages(&quot;ggplot2&quot;)}
+if(&quot;ggplot2&quot; %in% rownames(installed.packages()) == FALSE) {install.packages(&quot;ggplot2&quot;)}
 library(ggplot2)
 
 if(&quot;scales&quot; %in% rownames(installed.packages()) == FALSE) {install.packages(&quot;scales&quot;)}
@@ -435,7 +427,7 @@ if (l == FALSE) { dataActivity &lt;- read.table(dataFile,
 
 <p>The summary shows that the <code>steps</code> data have 2,304 <code>NA</code> entries.</p>
 
-<pre><code class="r">opts_chunk$set(fig.path=&quot;./figures&quot;)
+<pre><code class="r">opts_chunk$set(fig.path=&quot;figures/&quot;)
 
 ## PLOT NUMBER OF STEPS PER DAY.
 ### Each step interval per day is represented by a bar segment on the daily bar. 
@@ -495,7 +487,9 @@ daysENA &lt;- lenDayswNA - lenDayswoNA
 
 <p>From the dataframe <code>dataActivity</code> with the <code>NA</code>s omitted, we can create a histogram, using <code>ggplot2</code> of the number of steps made over the period (note: the <code>ggplot2</code> <code>theme</code> has been defined in the above function <code>myTheme()</code>);</p>
 
-<pre><code class="r">## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED
+<pre><code class="r">opts_chunk$set(fig.path=&quot;figures/&quot;)
+
+## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED
 g1 &lt;- ggplot(stepsperDay, aes(x = steps))
 g1 &lt;- g1 + geom_histogram(binwidth=2000, fill = &quot;white&quot;, col = &quot;black&quot;, alpha=1.0, position=&quot;identity&quot;)
 g1 &lt;- g1 + coord_cartesian(ylim = c(0,25))
@@ -542,7 +536,9 @@ stargazer(stepsperDay, type = &quot;text&quot;, title = &quot;Daily Steps statis
 
 <h1>What is the average daily activity pattern?</h1>
 
-<pre><code class="r">stepsperInterval &lt;- aggregate(steps ~ interval, dataActivity, FUN = mean, na.action = na.omit)
+<pre><code class="r">opts_chunk$set(fig.path=&quot;figures/&quot;)
+
+stepsperInterval &lt;- aggregate(steps ~ interval, dataActivity, FUN = mean, na.action = na.omit)
 
 ## PLOT NUMBER OF STEPS PER INTERVAL INCREMENT.
 
@@ -712,7 +708,9 @@ g3 &lt;- g3 + myTheme()
 
 <p>The new &ldquo;infilled&rdquo;&ldquo; dataset <code>dataActivityNew</code> is illustrated by structure (i.e., <code>str()</code>), the <code>summary()</code> and the <code>ggplot2</code> plot above. <strong>This concludes the answer to this section&#39;s 3rd task</strong>.</p>
 
-<pre><code class="r">## CONSOLIDATING DATA FOR STEPS WITH NA REPLACED &amp; STEPS WITH NA OMITTED
+<pre><code class="r">opts_chunk$set(fig.path=&quot;figures/&quot;)
+
+## CONSOLIDATING DATA FOR STEPS WITH NA REPLACED &amp; STEPS WITH NA OMITTED
 ### need this to plot the two data sets together for visual inspection.
 
 stepsperDayNew &lt;- aggregate(steps ~ date, dataActivityNew, FUN = sum, na.action = na.pass)
@@ -810,7 +808,9 @@ stargazer(stepsperDayNew, type = &quot;text&quot;, title = &quot;Daily Steps sta
 
 <p>It is instructive to overlay the <code>steps</code> histograms of <code>NA</code> omitted and <code>NA</code> replaced as it is easier to quickly oversee the difference between the two strategies.</p>
 
-<pre><code class="r">## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED &amp; NA OMITTED
+<pre><code class="r">opts_chunk$set(fig.path=&quot;figures/&quot;)
+
+## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED &amp; NA OMITTED
 g5 &lt;- ggplot(zz, aes(x = steps, fill = NA_treatment))
 g5 &lt;- g5 + geom_histogram(binwidth=2000, col = &quot;red&quot;, alpha=0.4, position=&quot;identity&quot;)
 g5 &lt;- g5 + coord_cartesian(ylim = c(0,25))
@@ -891,7 +891,9 @@ stargazer(stepsperWeekendDay, type = &quot;text&quot;, title = &quot;Daily Steps
 
 <p>The short answer to this section&#39;s question is: <strong>Yes! there are substantial differences in the activity patterns between the midweek and the weekend distribution.</strong> </p>
 
-<pre><code class="r">## Constructing the midweek &amp; weekend step activity plot.
+<pre><code class="r">opts_chunk$set(fig.path=&quot;figures/&quot;)
+
+## Constructing the midweek &amp; weekend step activity plot.
 ## Illustrated data are for NA replaced.
 
 stepsperIntervalDaytype &lt;- aggregate(steps ~ interval + daytype, dataActivityNew, FUN = mean, na.action = na.omit)

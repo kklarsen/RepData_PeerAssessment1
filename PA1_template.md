@@ -41,17 +41,7 @@ library(lubridate)
 
 if("stargazer" %in% rownames(installed.packages()) == FALSE) {install.packages("stargazer")}
 library(stargazer)
-```
 
-```
-## 
-## Please cite as: 
-## 
-##  Hlavac, Marek (2014). stargazer: LaTeX code and ASCII text for well-formatted regression and summary statistics tables.
-##  R package version 5.1. http://CRAN.R-project.org/package=stargazer
-```
-
-```r
 if("ggplot2" %in% rownames(installed.packages()) == FALSE) {install.packages("ggplot2")}
 library(ggplot2)
 
@@ -258,7 +248,7 @@ The summary shows that the `steps` data have 2,304 `NA` entries.
 
 
 ```r
-opts_chunk$set(fig.path="./figures")
+opts_chunk$set(fig.path="figures/")
 
 ## PLOT NUMBER OF STEPS PER DAY.
 ### Each step interval per day is represented by a bar segment on the daily bar. 
@@ -282,7 +272,7 @@ print(g0)
 ## values (position_stack).
 ```
 
-![plot of chunk unnamed-chunk-8](./figuresunnamed-chunk-8-1.png) 
+![plot of chunk unnamed-chunk-8](figures/unnamed-chunk-8-1.png) 
 
 ```r
 save_png("plot0.png",resultsDir)
@@ -329,6 +319,8 @@ From the dataframe `dataActivity` with the `NA`s omitted, we can create a histog
 
 
 ```r
+opts_chunk$set(fig.path="figures/")
+
 ## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED
 g1 <- ggplot(stepsperDay, aes(x = steps))
 g1 <- g1 + geom_histogram(binwidth=2000, fill = "white", col = "black", alpha=1.0, position="identity")
@@ -339,7 +331,7 @@ g1 <- g1 + myTheme()
 print(g1)
 ```
 
-![plot of chunk unnamed-chunk-11](./figuresunnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](figures/unnamed-chunk-11-1.png) 
 
 ```r
 save_png("plot1.png",resultsDir)
@@ -382,6 +374,8 @@ The `nobs` represents the number of observed days with valid `steps` measurement
 
 
 ```r
+opts_chunk$set(fig.path="figures/")
+
 stepsperInterval <- aggregate(steps ~ interval, dataActivity, FUN = mean, na.action = na.omit)
 
 ## PLOT NUMBER OF STEPS PER INTERVAL INCREMENT.
@@ -394,7 +388,7 @@ g2 <- g2 + myTheme()
 print(g2)
 ```
 
-![plot of chunk unnamed-chunk-13](./figuresunnamed-chunk-13-1.png) 
+![plot of chunk unnamed-chunk-13](figures/unnamed-chunk-13-1.png) 
 
 ```r
 save_png("plot2.png",resultsDir)
@@ -565,7 +559,7 @@ The below `ggplot2` plot shows the number of steps made per day, over the period
 print(g3)
 ```
 
-![plot of chunk unnamed-chunk-20](./figuresunnamed-chunk-20-1.png) 
+![plot of chunk unnamed-chunk-20](figures/unnamed-chunk-20-1.png) 
 
 ```r
 save_png("plot3.png",resultsDir)
@@ -575,6 +569,8 @@ The new "infilled"" dataset `dataActivityNew` is illustrated by structure (i.e.,
 
 
 ```r
+opts_chunk$set(fig.path="figures/")
+
 ## CONSOLIDATING DATA FOR STEPS WITH NA REPLACED & STEPS WITH NA OMITTED
 ### need this to plot the two data sets together for visual inspection.
 
@@ -608,7 +604,7 @@ g4 <- g4 + myTheme()
 print(g4)
 ```
 
-![plot of chunk unnamed-chunk-21](./figuresunnamed-chunk-21-1.png) 
+![plot of chunk unnamed-chunk-21](figures/unnamed-chunk-21-1.png) 
 
 ```r
 save_png("plot4.png",resultsDir)
@@ -683,6 +679,8 @@ It is instructive to overlay the `steps` histograms of `NA` omitted and `NA` rep
 
 
 ```r
+opts_chunk$set(fig.path="figures/")
+
 ## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED & NA OMITTED
 g5 <- ggplot(zz, aes(x = steps, fill = NA_treatment))
 g5 <- g5 + geom_histogram(binwidth=2000, col = "red", alpha=0.4, position="identity")
@@ -693,7 +691,7 @@ g5 <- g5 + myTheme()
 print(g5)
 ```
 
-![plot of chunk unnamed-chunk-24](./figuresunnamed-chunk-24-1.png) 
+![plot of chunk unnamed-chunk-24](figures/unnamed-chunk-24-1.png) 
 
 ```r
 save_png("plot5.png",resultsDir)
@@ -772,6 +770,8 @@ The short answer to this section's question is: **Yes! there are substantial dif
 
 
 ```r
+opts_chunk$set(fig.path="figures/")
+
 ## Constructing the midweek & weekend step activity plot.
 ## Illustrated data are for NA replaced.
 
@@ -801,7 +801,7 @@ To construct the `ggplot2` plot, I m using `facet_wrap()` to split it into two s
 print(g6)
 ```
 
-![plot of chunk unnamed-chunk-27](./figuresunnamed-chunk-27-1.png) 
+![plot of chunk unnamed-chunk-27](figures/unnamed-chunk-27-1.png) 
 
 ```r
 save_png("plot6.png",resultsDir)

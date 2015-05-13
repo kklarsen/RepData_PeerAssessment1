@@ -222,7 +222,7 @@ summary(dataActivity)
 The summary shows that the `steps` data have 2,304 `NA` entries.
 
 ```{r, echo = TRUE}
-opts_chunk$set(fig.path="./figures")
+opts_chunk$set(fig.path="figures/")
 
 ## PLOT NUMBER OF STEPS PER DAY.
 ### Each step interval per day is represented by a bar segment on the daily bar. 
@@ -237,6 +237,7 @@ g0 <- g0 + myTheme()
 **Note** the warning inserted by the `ggplot2` code relates to omitting the 2,304 `NA` values in the plot.
 
 ```{r, echo = TRUE}
+
 print(g0)
 
 save_png("plot0.png",resultsDir)
@@ -278,6 +279,7 @@ print(daysENA)
 From the dataframe `dataActivity` with the `NA`s omitted, we can create a histogram, using `ggplot2` of the number of steps made over the period (note: the `ggplot2` `theme` has been defined in the above function `myTheme()`);
 
 ```{r, echo = TRUE}
+opts_chunk$set(fig.path="figures/")
 
 ## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED
 g1 <- ggplot(stepsperDay, aes(x = steps))
@@ -314,6 +316,7 @@ The `nobs` represents the number of observed days with valid `steps` measurement
 # What is the average daily activity pattern?
 
 ```{r, echo = TRUE}
+opts_chunk$set(fig.path="figures/")
 
 stepsperInterval <- aggregate(steps ~ interval, dataActivity, FUN = mean, na.action = na.omit)
 
@@ -460,6 +463,7 @@ save_png("plot3.png",resultsDir)
 The new "infilled"" dataset `dataActivityNew` is illustrated by structure (i.e., `str()`), the `summary()` and the `ggplot2` plot above. **This concludes the answer to this section's 3rd task**.
 
 ```{r, echo = TRUE}
+opts_chunk$set(fig.path="figures/")
 
 ## CONSOLIDATING DATA FOR STEPS WITH NA REPLACED & STEPS WITH NA OMITTED
 ### need this to plot the two data sets together for visual inspection.
@@ -534,6 +538,7 @@ stargazer(stepsperDay, type = "text", title = "Daily Steps statistics (NA omitte
 It is instructive to overlay the `steps` histograms of `NA` omitted and `NA` replaced as it is easier to quickly oversee the difference between the two strategies.
 
 ```{r, echo = TRUE}
+opts_chunk$set(fig.path="figures/")
 
 ## PLOT HISTOGRAM OF TOTAL NUMBER OF STEPS PER DAY WITH NA REPLACED & NA OMITTED
 g5 <- ggplot(zz, aes(x = steps, fill = NA_treatment))
@@ -588,6 +593,7 @@ This already clearly evidence that the distributions for midweek and weekend are
 The short answer to this section's question is: **Yes! there are substantial differences in the activity patterns between the midweek and the weekend distribution.** 
 
 ```{r, echo = TRUE}
+opts_chunk$set(fig.path="figures/")
 
 ## Constructing the midweek & weekend step activity plot.
 ## Illustrated data are for NA replaced.
@@ -615,6 +621,7 @@ g6 <- g6 + facet_grid(.~ daytype, labeller=daytypeLabeller)
 To construct the `ggplot2` plot, I m using `facet_wrap()` to split it into two sections, showing the data for **midweek** as well as **weekend**, Further, I am renaming the labels from the coding convinient `mw` and `we` to something more describing, i.e., `mw = "Midweek: Mon - Fri"` and `we = "Weekend: Sat - Sun"`. `ggplot2`'s `facet_grid()` firstly positions the two facets and adds the more descriptive labels.  
 
 ```{r, echo = TRUE}
+
 print(g6)
 
 save_png("plot6.png",resultsDir)
